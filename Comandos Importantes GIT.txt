@@ -1,0 +1,35 @@
+Comandos Importantes GIT
+
+# INICIAR EL GIT EN UN PROYECTO VACIO Y VINCULARLO AL GITHUB.
+
+git init
+
+git add .
+
+git commit -m "Initial commit"
+
+git branch -M main
+
+git remote add origin https://github.com/Julian1699/Mis-Apuntes.git
+
+git push -u origin main
+
+
+
+### Buenas Prácticas para Hacer Commits ###
+
+Escribir mensajes de Commit claros y descriptivos, el mensaje de commit debe explicar el qué y el por qué del cambio.
+
+# Usa el formato: <tipo>(<alcance>): <resumen>.
+
+# tipo: chore, docs, feat, fix, refactor, style, test, etc.
+
+alcance: opcional, indica la sección afectada.
+
+resumen: descripción breve del cambio (menos de 50 caracteres).
+
+# Ejemplo: git commit -m "fix(auth): handle token expiration correctly."
+
+Usar el Tiempo Verbal Imperativo en los Mensajes,Escribe los mensajes como si estuvieras dando una orden.
+
+Ejemplo: Add new login feature en lugar de Added new login feature.

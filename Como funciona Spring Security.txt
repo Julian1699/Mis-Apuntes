@@ -1,0 +1,16 @@
+
+
+Claro, puedo darte una visión general de cómo estos componentes de Spring Security interactúan entre sí:
+
+Proceso de Autenticación: Comienza cuando una solicitud HTTP llega al servidor. Los filtros de Spring Security interceptan esta solicitud y la envían al Authentication Manager.
+
+Authentication Manager: Este componente central recibe la solicitud de autenticación y la delega a un Authentication Provider adecuado.
+
+Authentication Provider: Valida las credenciales del usuario. Si son válidas, devuelve un objeto Authentication que contiene los detalles y privilegios del usuario.
+
+UserDetailsService: Se utiliza dentro del Authentication Provider para cargar los detalles del usuario, como el nombre de usuario, contraseña y roles, generalmente desde una base de datos.
+
+Contexto de Seguridad: Una vez que el usuario está autenticado, el objeto Authentication se almacena en el contexto de seguridad para ser utilizado en solicitudes posteriores, facilitando la autorización y el control de acceso.
+
+Este flujo muestra cómo Spring Security maneja la autenticación, desde la interceptación de solicitudes hasta la verificación de credenciales y la gestión del contexto de seguridad para el usuario autenticado.
+

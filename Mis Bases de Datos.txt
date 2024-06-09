@@ -1,0 +1,64 @@
+### LAS SIGUIENTES SON LAS CONEXIONES A 4 BASES DE DATOS RELACIONALES, LAS CUALES SON MYSQL, POSTGRES, ORACLE Y H2. SE REALIZÓ CON EL OBJETIVO DE TENER CREDENCIALES DE CONEXIÓN PREESTABLECIDAS PARA MIS BASES DE DATOS, PARA TENER UNA GUÍA EN CASO DE TRABAJAR CON CUALQUIERA DE LAS ANTERIORMENTE MENCIONADAS EN UN PROYECTO DE SPRINGBOOT.
+
+### CREDENCIALES PARA CONEXIÓN A LA BASE DE DATOS MYSQL ###
+
+# Conexión a la base de datos MySQL.
+spring.datasource.url=jdbc:mysql://localhost:3306/tryapi?createDatabaseIfNotExist=true
+spring.datasource.username=root
+spring.datasource.password=root
+# Clase del controlador JDBC para MySQL.
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+# Configuración de JPA/Hibernate.
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+### CREDENCIALES PARA UNA BASE DE DATOS DE POSTGRESQL ###
+
+# Conexión a la base de datos PostgreSQL.
+spring.datasource.url=jdbc:postgresql://localhost:5432/tryapi
+spring.datasource.username=postgres
+spring.datasource.password=postgres
+# Clase del controlador JDBC para PostgreSQL.
+spring.datasource.driver-class-name=org.postgresql.Driver
+# Configuración de JPA/Hibernate.
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+### CREDENCIALES PARA UNA BASE DE DATOS DE ORACLE SQL ###
+
+# Conexión a la base de datos Oracle.
+spring.datasource.url=jdbc:oracle:thin:@localhost:1521:orcl  
+spring.datasource.username=orcl
+spring.datasource.password=123456
+# Clase del controlador JDBC para Oracle.
+spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
+# Configuración de JPA/Hibernate.
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.OracleDialect
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+### CREDENCIALES PARA UNA BASE DE DATOS EN MEMORIA H2 ###
+
+# Conexión a la base de datos en memoria H2.
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driver-class-name=org.h2.Driver
+spring.datasource.username=root
+spring.datasource.password=
+# Configuración de JPA/Hibernate.
+spring.datasource.database-platform=org.hibernate.dialect.H2Dialect
+spring.h2.console.enabled=true
+
+### AÑADIR ESTA DEPENDENCIAS AL POM.XML ###
+
+<!--Dependecie for use H2 Database {-->
+<dependency>
+	<groupId>com.h2database</groupId>
+	<artifactId>h2</artifactId>
+	<scope>runtime</scope>
+</dependency>
+<!--}Dependecie for use H2 Database -->

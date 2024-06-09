@@ -1,0 +1,73 @@
+Configuración y Despliegue de API Spring Boot con Docker y PostgreSQL
+
+1. Configurar application.properties con Variables de Entorno
+Utiliza variables de entorno para gestionar las credenciales de conexión a la base de datos PostgreSQL en tu archivo application.properties. Esto permite mayor flexibilidad y seguridad en la configuración.
+
+application.properties
+
+### CONFIGURAR APPLICATION.PROPERTIES CON VARIABLES DE ENTORNO ###
+
+# Environment Variables with Credentials for PostgreSQL Database Connection
+spring.datasource.url=${DATABASE_URL}
+spring.datasource.username=${DATABASE_USERNAME}
+spring.datasource.password=${DATABASE_PASSWORD}
+# Spring Java Persistence API - JPA Configuration
+spring.jpa.hibernate.ddl-auto=update
+
+2. Empaquetar el API de Spring Boot en un Archivo .jar
+
+Primero, debes empaquetar tu aplicación Spring Boot en un archivo .jar utilizando Maven. Este archivo se utilizará posteriormente para construir la imagen Docker de tu API.
+
+mvn clean package -DskipTests
+
+3. Crear el Dockerfile para la API de Spring Boot
+
+El Dockerfile define cómo se debe construir la imagen Docker de tu API de Spring Boot.
+
+Dockerfile
+
+### DOCKERFILE PARA API SPRINGBOOT ###
+
+FROM openjdk:17-jdk-alpine
+COPY target/rest-0.0.1-SNAPSHOT.jar api-springboot.jar
+ENTRYPOINT ["java", "-jar", "api-springboot.jar"]
+
+4. Crear el archivo docker-compose.yml para la API y la Base de Datos
+
+El archivo docker-compose.yml define los servicios para tu API de Spring Boot y la base de datos PostgreSQL, así como las configuraciones necesarias para que funcionen juntos.
+
+docker-compose.yml
+
+### DOCKER-COMPOSE.YML PARA API Y BASE DE DATOS ###
+
+version: "3.9"
+
+services:
+  api:
+    container_name: api-springboot
+    image: api-springboot:latest
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - DATABASE_URL=jdbc:postgresql://database:5432/tryapi
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=postgres
+    depends_on:
+      - database
+
+  database:
+    container_name: db-postgres
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: tryapi
+
+5. Construir y Desplegar con Docker Compose
+Para construir y desplegar tus servicios, navega al directorio donde se encuentra tu archivo docker-compose.yml y ejecuta el siguiente comando:
+
+docker-compose up 
+

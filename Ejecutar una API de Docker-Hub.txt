@@ -1,0 +1,52 @@
+### Empaquetar y Ejecutar una API de Spring Boot con Docker y PostgreSQL ### 
+
+1. Empaquetar el API de Spring Boot en un Archivo .JAR
+
+Primero, debes empaquetar tu aplicación Spring Boot en un archivo .jar. Este archivo se usará posteriormente para crear la imagen de Docker de tu API.
+
+mvn clean package -DskipTests
+
+2. Crear una Red Docker para Conectar el API y la Base de Datos
+Para que tu API y la base de datos puedan comunicarse entre sí, debes crear una red Docker:
+
+docker network create mi-red-Docker
+
+3. Descargar y Ejecutar la Imagen de la Base de Datos PostgreSQL
+Descarga la imagen de PostgreSQL desde Docker Hub y ejecuta el contenedor en la red creada:
+
+docker run --name database -p 5400:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=tryapi --network mi-red-docker postgres:13
+
+4. Descargar y Ejecutar la Imagen del API de Spring Boot
+
+Descarga la imagen de tu API Spring Boot desde Docker Hub y ejecuta el contenedor en la misma red Docker, asegurándote de que los detalles de conexión a la base de datos sean correctos:
+
+docker run --name api -p 8080:8080 -e DATABASE_URL=jdbc:postgresql://database:5432/tryapi -e DATABASE_USERNAME=postgres -e DATABASE_PASSWORD=postgres --network mi-red-docker julian1699/api-for-learning:api
+
+5. Entrar al Contenedor y a la Base de Datos PostgreSQL
+
+Para interactuar directamente con el contenedor PostgreSQL y acceder a la base de datos, sigue estos pasos:
+
+5.1 Entrar al Contenedor
+Usa el siguiente comando para acceder al contenedor de PostgreSQL:
+
+winpty docker exec -it db-postgres bash
+
+5.2 Entrar a la Base de Datos
+
+Una vez dentro del contenedor, puedes conectarte a la base de datos tryapi con el usuario postgres:
+
+psql -U postgres -d tryapi
+
+Resumen de Pasos
+
+1. Empaquetar la aplicación Spring Boot: Utiliza mvn clean package -DskipTests para crear un archivo .jar.
+
+2. Crear una red Docker: Crea una red Docker con docker network create mi-red-docker para conectar el API y la base de datos.
+
+3. Ejecutar PostgreSQL en Docker: Descarga y corre PostgreSQL con docker run --name database -p 5400:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=tryapi --network mi-red-docker postgres:13.
+
+4. Ejecutar la API Spring Boot en Docker: Descarga y corre la API con docker run --name api -p 8080:8080 -e DATABASE_URL=jdbc:postgresql://database:5432/tryapi -e DATABASE_USERNAME=postgres -e DATABASE_PASSWORD=postgres --network mi-red-docker julian1699/api-for-learning:api.
+
+5. Acceder al contenedor PostgreSQL: Usa winpty docker exec -it db-postgres bash para entrar en el contenedor y psql -U postgres -d tryapi para acceder a la base de datos.
+
+Siguiendo estos pasos, deberías tener tu aplicación Spring Boot empaquetada y corriendo junto con una base de datos PostgreSQL en contenedores Docker, todos conectados a través de una red Docker personalizada.

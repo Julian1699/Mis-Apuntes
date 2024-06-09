@@ -1,0 +1,117 @@
+BASES DE DATOS CON DOCKER COMPOSE
+
+Para configurar y ejecutar bases de datos MySQL, OracleSQL y PostgreSQL utilizando Docker Compose, sigue los pasos descritos a continuación. Cada base de datos tendrá su propio archivo docker-compose.yml para evitar conflictos de puertos y facilitar la gestión.
+
+1. Crear Archivos docker-compose.yml
+
+Para cada base de datos, crea un archivo docker-compose.yml en un directorio adecuado. El contenido de cada archivo debe ser el siguiente:
+
+
+### MySQL ###
+
+Crea un archivo llamado docker-compose.yml y añade el siguiente contenido:
+
+version: '3.1'
+
+services:
+  mysql:
+    container_name: db-mysql
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: tryapi
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    ports:
+      - "3300:3306"
+
+
+### PostgreSQL ###
+
+Crea un archivo llamado docker-compose.yml y añade el siguiente contenido:
+
+version: '3.1'
+
+services:
+  postgres:
+    container_name: db-postgres
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: tryapi
+    ports:
+      - "5400:5432"
+
+
+### Oracle SQL ###
+
+Crea un archivo llamado docker-compose.yml y añade el siguiente contenido:
+
+version: '3.1'
+
+services:
+  oracle:
+    container_name: db-oracle
+    image: gvenzl/oracle-xe:18-slim
+    restart: always
+    environment:
+      ORACLE_PASSWORD: oracle
+      ORACLE_ALLOW_REMOTE: 'true'
+    ports:
+      - "1500:1521"
+
+
+2. Ejecutar los Archivos docker-compose.yml
+
+docker-compose up
+
+3. Configuración del Archivo .properties
+
+Asegúrate de configurar tu archivo application.properties en tu proyecto SpringBoot con las credenciales adecuadas para conectarse a cada base de datos. Aquí tienes las configuraciones correspondientes:
+
+
+### CREDENCIALES PARA CONEXIÓN A LA BASE DE DATOS POSTGRESQL ###
+
+# Conexión a la base de datos PostgreSQL.
+spring.datasource.url=jdbc:postgresql://localhost:5400/tryapi
+spring.datasource.username=postgres
+spring.datasource.password=postgres
+spring.datasource.driver-class-name=org.postgresql.Driver
+# Configuración de JPA/Hibernate.
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+
+### CREDENCIALES PARA CONEXIÓN A LA BASE DE DATOS MYSQL ###
+
+# Conexión a la base de datos MySQL.
+spring.datasource.url=jdbc:mysql://localhost:3300/tryapi
+spring.datasource.username=root
+spring.datasource.password=root
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+# Configuración de JPA/Hibernate.
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+
+### CREDENCIALES PARA CONEXIÓN A LA BASE DE DATOS ORACLE SQL ###
+
+# Conexión a la base de datos Oracle.
+spring.datasource.url=jdbc:oracle:thin:@localhost:1500:XE
+spring.datasource.username=system
+spring.datasource.password=oracle
+spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
+# Configuración de JPA/Hibernate.
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.OracleDialect
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+
